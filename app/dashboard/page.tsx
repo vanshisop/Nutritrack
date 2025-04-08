@@ -272,7 +272,7 @@ const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([])
       weighttoSub *= KG_TO_LBS;
       try {
          await axios.post(
-          'https://localhost:3001/add-weight',
+          ''https://express-vercel-nutritrack.vercel.app/add-weight',
           {
             id: userID,
             weight: weighttoSub,
