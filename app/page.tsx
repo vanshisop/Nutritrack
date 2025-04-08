@@ -33,7 +33,7 @@ export default function LoginRegister() {
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const response = await axios.post('/api/login', {
+    const response = await axios.post('https://express-vercel-nutritrack.vercel.app/login', {
       loginEmail,loginPassword
     },{
       withCredentials: true
