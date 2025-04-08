@@ -43,7 +43,6 @@ export async function POST(req) {
         response.headers.set(
           'Set-Cookie',
           cookie.serialize('authToken', token, {
-            domain:'nutritrack-three.vercel.app',
             httpOnly: true,
             maxAge: 3600000, // 1 hour in seconds
             secure: true,
