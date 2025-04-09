@@ -131,10 +131,10 @@ export default function Dashboard() {
 
   const [foodLogDate,setFoodLogDate] = useState(new Date())
   const [date, setDate] = useState(new Date())
-  const [weightDate,setWeightDate] = useState(new Date())
   const [savedRecipeSearch, setSavedRecipeSearch] = useState("")
   
   const [recipeName, setRecipeName] = useState('')
+
  
 
   const [userID, setuserID] = useState(0)
@@ -166,7 +166,7 @@ export default function Dashboard() {
   const [recipeSaveDialog,setrecipeSaveDialog] = useState(false)
   const [hadMealPlan, sethadMealPlan] = useState(false);
   const [recipeNameError, setRecipeNameError] = useState(false);
-  const [mealTrackerDate,setMealTrackerDate] = useState(new Date())
+  
   const [customRecipe, setCustomRecipe] = useState<{
     name: string;
     calories: string;
@@ -221,12 +221,21 @@ const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([])
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
-
+  const getTodayLocalDate = (): Date => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  };
   // Convert YYYY-MM-DD -> Date (without timezone interference)
   const parseInputDate = (dateString: string): Date => {
     const [year, month, day] = dateString.split('-').map(Number);
     return new Date(year, month - 1, day);
   };
+
+
+  const [mealTrackerDate, setMealTrackerDate] = useState(formatForInput(getTodayLocalDate()));
+  const [weightDate,setWeightDate] = useState(formatForInput(getTodayLocalDate()))
+  
+  
   const getNutrientColorClass = (consumed: number, target: number) => {
     const percentage = (consumed / target) * 100;
 
@@ -383,7 +392,9 @@ const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([])
         try {
           const res = await axios.post(
             'https://express-vercel-nutritrack.vercel.app/get-calories-saved-recipes',
-            { id: userID },
+            { id: userID ,
+              timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            },
             { withCredentials: true }
           );
           console.log(res.data.calories);
@@ -1137,8 +1148,8 @@ const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([])
   <Input
     id="saved-recipe-date"
     type="date"
-    value={formatForInput(weightDate)}
-    onChange={(e) => setWeightDate(parseInputDate(e.target.value))}
+    value={weightDate}
+    onChange={(e) => setWeightDate(e.target.value)}
     className="w-full border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
     max={formatForInput(new Date())}
   />
@@ -1215,8 +1226,8 @@ const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([])
               <input
                 id="saved-recipe-date"
                 type="date"
-                value={formatForInput(mealTrackerDate)}
-                onChange={(e) => setMealTrackerDate(parseInputDate(e.target.value))}
+                value={mealTrackerDate}
+                onChange={(e) => setMealTrackerDate(e.target.value)}
                 className="w-full h-10 border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 max={formatForInput(new Date())}
               />
@@ -1525,8 +1536,8 @@ const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([])
   <input
     id="saved-recipe-date"
     type="date"
-    value={formatForInput(mealTrackerDate)}
-    onChange={(e) => setMealTrackerDate(parseInputDate(e.target.value))}
+    value={mealTrackerDate}
+    onChange={(e) => setMealTrackerDate(e.target.value)}
     className="w-32 h-10 border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" // Explicit height set to h-10
     max={formatForInput(new Date())}
   />
