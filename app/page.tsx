@@ -90,18 +90,16 @@ export default function LoginRegister() {
       
       {mobileMenuOpen && (
         <nav className="md:hidden bg-white dark:bg-gray-800 p-4">
-          <Link className="block py-2 text-sm font-medium text-gray-700 hover:text-green-600 dark:text-gray-200 dark:hover:text-green-400" href="#">
+          <Link className="block py-2 text-sm font-medium text-gray-700 hover:text-green-600 dark:text-gray-200 dark:hover:text-green-400" href="/home#features">
             Features
           </Link>
-          <Link className="block py-2 text-sm font-medium text-gray-700 hover:text-green-600 dark:text-gray-200 dark:hover:text-green-400" href="#">
-            Pricing
+          <Link className="block py-2 text-sm font-medium text-gray-700 hover:text-green-600 dark:text-gray-200 dark:hover:text-green-400" href="/home#testimonials">
+            Testimonials
           </Link>
-          <Link className="block py-2 text-sm font-medium text-gray-700 hover:text-green-600 dark:text-gray-200 dark:hover:text-green-400" href="#">
-            About
-          </Link>
-          <Link className="block py-2 text-sm font-medium text-gray-700 hover:text-green-600 dark:text-gray-200 dark:hover:text-green-400" href="#">
+          <Link className="block py-2 text-sm font-medium text-gray-700 hover:text-green-600 dark:text-gray-200 dark:hover:text-green-400" href="/home#contact">
             Contact
           </Link>
+          
         </nav>
       )}
       <main className="flex-1 flex items-center justify-center p-4">

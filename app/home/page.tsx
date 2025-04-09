@@ -36,7 +36,7 @@ export default function HomePage() {
   const handleLogout = async  () => {
 
     try {
-       await axios.post('https://express-vercel-nutritrack.vercel.app/log-out', {}, {
+       await axios.post('api/log-out', {}, {
         withCredentials: true
       })
       router.push('/')
@@ -49,7 +49,7 @@ export default function HomePage() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.post('https://express-vercel-nutritrack.vercel.app/check-auth', {}, {
+        const res = await axios.post('api/check-auth', {}, {
           withCredentials: true
         })
         
@@ -183,56 +183,61 @@ export default function HomePage() {
         )}
         
         <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" className="md:hidden">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right">
-            <nav className="flex flex-col gap-4">
-              {!isLoggedIn && (
-              <div>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
-                  Feature
-                </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
-                  Testimonials
-                </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="#pricing">
-                  Pricing
-                </Link>
-              </div>)}
-              {isLoggedIn && (
-              <div>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
-                  Dashboard
-                </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
-                  Your Meal Log
-                </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="#pricing">
-                  Saved Meals
-                </Link>
-              </div>)}
-              {isLoggedIn ? (
-                <>
-                  <Button variant="ghost" className="justify-start">
-                    <Utensils className="mr-2 h-4 w-4" />
-                    Settings
-                  </Button>
-                  <Button variant="ghost" onClick={handleLogout} className="justify-start text-red-500 hover:text-red-600 hover:bg-red-100">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign Out
-                  </Button>
-                </>
-              ) : (
-                <div className="flex flex-col space-y-2">
-                  <Button onClick={handleLogin}>Login/Sign Up</Button>
-                </div>
-              )}
-            </nav>
-          </SheetContent>
-        </Sheet>
+  <SheetTrigger asChild>
+    <Button variant="ghost" className="md:hidden">
+      <Menu className="h-6 w-6" />
+    </Button>
+  </SheetTrigger>
+  <SheetContent side="right" className="w-4/5 sm:w-3/5">
+    <nav className="flex flex-col gap-4 py-4 items-start text-left">
+      {!isLoggedIn ? (
+        <>
+          <Link href="#features" className="text-sm font-medium hover:underline underline-offset-4">
+            Feature
+          </Link>
+          <Link href="#testimonials" className="text-sm font-medium hover:underline underline-offset-4">
+            Testimonials
+          </Link>
+          <Link href="#pricing" className="text-sm font-medium hover:underline underline-offset-4">
+            Pricing
+          </Link>
+          <Button onClick={handleLogin} className="w-full">
+            Login / Sign Up
+          </Button>
+        </>
+      ) : (
+        <>
+          <Link href="/dashboard" className="text-sm font-medium hover:underline underline-offset-4">
+            Dashboard
+          </Link>
+          <Link href="/meal_log" className="text-sm font-medium hover:underline underline-offset-4">
+            Your Meal Log
+          </Link>
+          <Link href="/saved_meals" className="text-sm font-medium hover:underline underline-offset-4">
+            Saved Meals
+          </Link>
+          <Button
+            variant="ghost"
+            className="w-full justify-start"
+            onClick={() => router.push('/settings')}
+          >
+            <Utensils className="mr-2 h-4 w-4" />
+            Settings
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={handleLogout}
+            className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-100"
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign Out
+          </Button>
+        </>
+      )}
+    </nav>
+  </SheetContent>
+</Sheet>
+
       </header>
       <main className="flex-1">
         {!isLoggedIn && (<section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">

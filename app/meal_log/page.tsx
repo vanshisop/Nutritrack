@@ -43,7 +43,7 @@ export default function MealLog() {
   const handleLogout = async  () => {
 
     try {
-      await axios.post('https://express-vercel-nutritrack.vercel.app/log-out', {}, {
+      await axios.post('api/log-out', {}, {
         withCredentials: true
       })
       router.push('/')
@@ -55,7 +55,7 @@ export default function MealLog() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.post('https://express-vercel-nutritrack.vercel.app/check-auth', {}, { withCredentials: true })
+        const res = await axios.post('api/check-auth', {}, { withCredentials: true })
         if (res.data.login !== "Yes") {
           router.push('/')
         } else {
@@ -245,7 +245,16 @@ export default function MealLog() {
               <Link className="text-sm font-medium hover:underline text-gray-600 dark:text-gray-300" href="/saved_meals">
                 Saved Recipes
               </Link>
+              <Link className="text-sm font-medium hover:underline text-gray-600 dark:text-gray-300" href="/settings">
+                Settings
+              </Link>
             </nav>
+            <div className="flex flex-col space-y-2 mt-4">
+            <Button variant="ghost" onClick={handleLogout} className="justify-start text-red-500 hover:text-red-600 hover:bg-red-100">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </Button>
+            </div>
           </SheetContent>
         </Sheet>
       </header>

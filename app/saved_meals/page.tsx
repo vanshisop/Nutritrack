@@ -38,7 +38,7 @@ export default function SavedRecipes() {
   const handleLogout = async  () => {
 
     try {
-     await axios.post('https://express-vercel-nutritrack.vercel.app/log-out', {}, {
+     await axios.post('api/log-out', {}, {
         withCredentials: true
       })
       router.push('/')
@@ -50,7 +50,7 @@ export default function SavedRecipes() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.post('https://express-vercel-nutritrack.vercel.app/check-auth', {}, {
+        const res = await axios.post('api/check-auth', {}, {
           withCredentials: true
         })
         if (res.data.login !== "Yes") {
@@ -169,16 +169,22 @@ export default function SavedRecipes() {
           </SheetTrigger>
           <SheetContent side="right" className="bg-white dark:bg-gray-800">
             <nav className="flex flex-col gap-4">
-              <Link className="text-sm font-medium hover:underline text-gray-600 dark:text-gray-300" href="#">
+              <Link className="text-sm font-medium hover:underline text-gray-600 dark:text-gray-300" href="/dashboard">
                 Dashboard
               </Link>
-              <Link className="text-sm font-medium hover:underline text-gray-600 dark:text-gray-300" href="#">
+              <Link className="text-sm font-medium hover:underline text-gray-600 dark:text-gray-300" href="/meal_log">
                 Meal Log
               </Link>
-              <Link className="text-sm font-medium hover:underline text-gray-600 dark:text-gray-300" href="#">
-                Saved Recipes
+              <Link className="text-sm font-medium hover:underline text-gray-600 dark:text-gray-300" href="/settings">
+                Settings
               </Link>
             </nav>
+            <div className="flex flex-col space-y-2 mt-4">
+            <Button variant="ghost" onClick={handleLogout} className="justify-start text-red-500 hover:text-red-600 hover:bg-red-100">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </Button>
+            </div>
           </SheetContent>
         </Sheet>
       </header>

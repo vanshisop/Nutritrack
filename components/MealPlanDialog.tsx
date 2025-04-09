@@ -29,6 +29,8 @@ type DailyPlan = {
 };
 
 const MealPlanDialog = ({ isDialogOpen, setIsDialogOpen, weeklyPlan, userID,setInitialLoad }:{ isDialogOpen: boolean; setIsDialogOpen: (open: boolean) => void; weeklyPlan: DailyPlan[]  ; userID : number ; setInitialLoad: (val: boolean) => void;}) => {
+  console.log(weeklyPlan);
+  
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const currentDay = daysOfWeek[new Date().getDay() - 1] || "Monday"; // Default to Monday if index is -1
   const [selectedDay, setSelectedDay] = useState(currentDay);
@@ -62,7 +64,7 @@ const MealPlanDialog = ({ isDialogOpen, setIsDialogOpen, weeklyPlan, userID,setI
 
     for (const meal of mealsToSubmit) {
       try {
-        await axios.post("http://localhost:3001/add-food", meal, { withCredentials: true });
+        await axios.post("https://express-vercel-nutritrack.vercel.app/add-food", meal, { withCredentials: true });
 
       } catch (error) {
         console.error("Error adding food:", error);
