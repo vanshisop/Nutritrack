@@ -148,6 +148,7 @@ export default function MealLog() {
 
   const deleteMeal = async (mealIndex: number, dateIndex: number) => {
     try {
+      
       const mealToDelete = mealLogs[dateIndex].meals[mealIndex]
       await axios.post(
         'https://express-vercel-nutritrack.vercel.app/delete-logged-meal',
@@ -328,7 +329,7 @@ export default function MealLog() {
                 </div>
               </CardContent>
               <CardFooter className="bg-gray-50 dark:bg-green-900 p-4">
-                <Button variant="ghost" className="w-full text-red-500" onClick={() => deleteMeal(mealIndex, 0)}>
+                <Button variant="ghost" className="w-full text-red-500" onClick={() => deleteMeal(mealIndex, mealLogs.findIndex(entry => entry.date === selectedDate))}>
                   Delete Meal
                 </Button>
               </CardFooter>

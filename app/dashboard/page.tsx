@@ -558,7 +558,7 @@ const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([])
       });
       setisApiCall(true)
       setIsNutritionDialogOpen(true)
-      
+
     })
     .catch(error => {
       // Handle error here
@@ -566,6 +566,8 @@ const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([])
       setisApiCall(false)
       setRecipeError(true)
       // You could also display an alert or show a UI error message
+      
+      
     });
    
     
@@ -1823,14 +1825,54 @@ const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([])
         </Alert>
       )}
       
-      {/* Dialogs remain exactly the same */}
+    
       <Dialog open={recipeError} onOpenChange={setRecipeError}>
-        {/* ... existing dialog code ... */}
-      </Dialog>
+            <DialogOverlay className="fixed inset-0 bg-gray-500 bg-opacity-75" />
+            <DialogContent className="sm:max-w-[425px] bg-white p-6 rounded shadow-lg">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-semibold">Error</DialogTitle>
+              </DialogHeader>
+              <div className="py-4">
+                <p className="text-sm text-red-600">Your ingredient name or ingredient quantity match is not compatible. Please check and submit valid ingredients and quantities.</p>
+                <Button onClick={() => setRecipeError(false)} className="w-full mt-4">
+                  Close
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
       
-      <Dialog open={isNutritionDialogOpen && isApiCall} onOpenChange={setIsNutritionDialogOpen}>
-        {/* ... existing dialog code ... */}
-      </Dialog>
+          <Dialog open={isNutritionDialogOpen && isApiCall}onOpenChange={setIsNutritionDialogOpen}>
+            
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>{recipeName} Nutrition (for {servings} serving{servings > 1 ? 's' : ''})</DialogTitle>
+              </DialogHeader>
+              {customMealResult && (
+                <div className="py-4">
+                  <p className="text-md font-bold text-black-800 mb-4 bg-green-200 px-4 py-2 rounded shadow-lg uppercase">
+                    Per 1 serving
+                  </p>
+                  <p className="text-sm text-green-600 font-medium mb-4">
+                  Calories: {Math.round(customMealResult.calories / servings)} | 
+                  Protein: {Math.round(customMealResult.protein / servings)}g | 
+                  Carbs: {Math.round(customMealResult.carbs / servings)}g | 
+                  Fat: {Math.round(customMealResult.fat / servings)}g
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button onClick={handleSaveRecipe} variant="outline" className="w-full">
+                      Save Recipe
+                    </Button>
+                    <Button onClick={prehandleAddToLog} variant="outline" className="w-full">
+                      Add to Daily Log
+                    </Button>
+                    <Button onClick={prehandleSaveAndLog} className="w-full col-span-2">
+                      Save Recipe and Add to Log
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
     </div>
   </CardContent>
 </Card>
